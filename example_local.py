@@ -1,18 +1,16 @@
-import os
 import autogen
-from dotenv import find_dotenv, load_dotenv
-load_dotenv(find_dotenv())
 
 config_list = [
     {
-        'model': 'gpt-4',
-        'api_key': os.getenv('OPENAI_API_KEY')
-    }
+        "api_base": "http://localhost:1234/v1",
+        "api_type": "open_ai",
+        "api_key": "NULL",
+    },
 ]
 
 llm_config={
     "request_timeout": 600,
-    "seed": 45,
+    "seed": 48,
     "config_list": config_list,
     "temperature": 0
 }
@@ -25,7 +23,7 @@ assistant = autogen.AssistantAgent(
 
 user_proxy = autogen.UserProxyAgent(
     name="user_proxy",
-    human_input_mode="NEVER",
+    human_input_mode="ALWAYS",
     max_consecutive_auto_reply=10,
     is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
     code_execution_config={"work_dir": "web"},
